@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1091902315018",
+    "firebase_url": "https://camerax-firebase-ml-vision.firebaseio.com",
+    "project_id": "camerax-firebase-ml-vision",
+    "storage_bucket": "camerax-firebase-ml-vision.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091902315018:android:549805b40f8af6515b9df3",
+        "android_client_info": {
+          "package_name": "me.alfredobejarano.cameraxfirebasemlvision"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091902315018-kipuc4ti8kd6gnkk5n494urc2bbpqv65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.alfredobejarano.cameraxfirebasemlvision",
+            "certificate_hash": "3be7cfd72d4ba2eaabb13fded0b408fa55731e8b"
+          }
+        },
+        {
+          "client_id": "1091902315018-jj8u45706o15ukn1na4qc6s1sa4cqtcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoMoGLIN0vXjd4hTc02MfqzpHDYtiWQkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091902315018-jj8u45706o15ukn1na4qc6s1sa4cqtcq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
