@@ -47,7 +47,9 @@ class LabelerAnalyzer : ImageAnalysis.Analyzer {
             val results = detectedObjects?.map { detectedObject -> detectedObject.entityId ?: "" }
             imageLabelingLiveData.postValue(results)
             analysisRunning = false
-        }.addOnFailureListener { analysisRunning = false }
+        }.addOnFailureListener {
+            analysisRunning = false
+        }
     }
 
     /**

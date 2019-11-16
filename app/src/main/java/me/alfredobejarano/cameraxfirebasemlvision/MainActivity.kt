@@ -21,11 +21,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = setContentView(this, R.layout.activity_main)
 
-        val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_SHORT)
+        val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         binding.cameraView.addOnLabelResultsListener { results ->
-            snackbar.setText(results.joinToString(", ")).show()
+            snackbar.setText(results.joinToString(", "))
+            if (!snackbar.isShown) {
+                snackbar.show()
+            }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         if (isCameraPermissionGranted()) {
             binding.cameraView.bindToLifeCycle(this)
         } else {
