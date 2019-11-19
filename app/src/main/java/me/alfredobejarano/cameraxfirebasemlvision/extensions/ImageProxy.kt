@@ -1,9 +1,6 @@
 package me.alfredobejarano.cameraxfirebasemlvision.extensions
 
-import android.graphics.BitmapFactory
-import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
+import android.graphics.*
 import androidx.camera.core.ImageProxy
 import java.io.ByteArrayOutputStream
 
@@ -31,7 +28,7 @@ fun ImageProxy?.planesAsByteArray() = this?.planes
  * Parses the data from an [ImageProxy] using the [YuvImage] class to return a Bitmap
  * usable by the Firebase detector.
  */
-fun ImageProxy?.asBitmap() = ByteArrayOutputStream().let { outputStream ->
+fun ImageProxy?.asBitmap(): Bitmap = ByteArrayOutputStream().let { outputStream ->
     YuvImage(planesAsByteArray(), ImageFormat.NV21, SCAN_WIDTH, SCAN_HEIGHT, null)
         .compressToJpeg(SCAN_RECT, JPEG_QUALITY, outputStream)
 
