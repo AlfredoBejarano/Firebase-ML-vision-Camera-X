@@ -100,7 +100,7 @@ class CameraView(ctx: Context, attrs: AttributeSet? = null) : TextureView(ctx, a
     /**
      * Creates a [LabelerAnalyzer] to be used by CameraX.
      * Returns its labeling results to the defined [onLabelResults] Listener using the
-     * function.
+     * function [addOnLabelResultsListener].
      */
     private fun observeLabelingResults(owner: LifecycleOwner) = LabelerAnalyzer().also { analyzer ->
         analyzer.imageLabelingResults.observe(owner, Observer(onLabelResults))
