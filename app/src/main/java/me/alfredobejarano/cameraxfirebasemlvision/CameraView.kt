@@ -18,7 +18,7 @@ import java.util.concurrent.Executors.newSingleThreadExecutor
  * Copyright © 2019 GROW. All rights reserved.
  */
 class CameraView(ctx: Context, attrs: AttributeSet? = null) : TextureView(ctx, attrs) {
-    private var onLabelResults: (results: List<String>) -> Unit = {}
+    private var onLabelResults: (results: String) -> Unit = {}
 
     /**
      * Reference to the CameraX [Preview] use case used by this class.
@@ -117,7 +117,7 @@ class CameraView(ctx: Context, attrs: AttributeSet? = null) : TextureView(ctx, a
     /**
      * Sets a listener for this view to report its results from image labeling.
      */
-    fun addOnLabelResultsListener(listener: (results: List<String>) -> Unit) {
+    fun addOnLabelResultsListener(listener: (results: String) -> Unit) {
         onLabelResults = listener
     }
 }
