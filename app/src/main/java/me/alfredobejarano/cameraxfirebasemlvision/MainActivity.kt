@@ -23,9 +23,12 @@ class MainActivity : AppCompatActivity() {
 
         val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         binding.cameraView.addOnLabelResultsListener { results ->
-            snackbar.setText(results.joinToString(", "))
-            if (!snackbar.isShown) {
-                snackbar.show()
+            val label = results.joinToString(", ")
+            if (label.isNotBlank()) {
+                snackbar.setText(label)
+                if (!snackbar.isShown) {
+                    snackbar.show()
+                }
             }
         }
     }
