@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceImageLabelerOptions
 import java.io.ByteArrayOutputStream
 
 /**
@@ -22,6 +23,7 @@ class LabelerAnalyzer : ImageAnalysis.Analyzer {
         const val SCAN_WIDTH = 640
         const val SCAN_HEIGHT = 480
         const val JPEG_QUALITY = 50
+        const val CONFIDENCE_THRESHOLD = 0.7f
         val SCAN_RECT = Rect(0, 0, SCAN_WIDTH, SCAN_HEIGHT)
     }
 
@@ -30,13 +32,17 @@ class LabelerAnalyzer : ImageAnalysis.Analyzer {
      */
     private var analysisRunning = false
 
-    private val imageLabelingLiveData = MediatorLiveData<List<String>>()
-    val imageLabelingResults = imageLabelingLiveData as LiveData<List<String>>
+    private val imageLabelingLiveData = MediatorLiveData<String>()
+    val imageLabelingResults = imageLabelingLiveData as LiveData<String>
+
+    private val labelerOptions = FirebaseVisionOnDeviceImageLabelerOptions.Builder()
+        .setConfidenceThreshold(CONFIDENCE_THRESHOLD)
+        .build()
 
     /**
      * Labeler instance form Firebase Vision.
      */
-    private val labeler = FirebaseVision.getInstance().onDeviceImageLabeler
+    private val labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler(labelerOptions)
 
     /**
      * Called when a frame gets received from the CameraX stream.
@@ -51,8 +57,8 @@ class LabelerAnalyzer : ImageAnalysis.Analyzer {
         val fireBaseImage = createFirebaseImage(image)
 
         labeler.processImage(fireBaseImage).addOnSuccessListener { labeledObjects ->
-            val results = labeledObjects?.map { labeledObject -> labeledObject.text }
-            imageLabelingLiveData.postValue(results ?: listOf())
+            val closestMatch = labeledObjects?.maxBy { it.confidence }
+            imageLabelingLiveData.postValue(closestMatch?.text ?: "")
             analysisRunning = false
         }.addOnFailureListener {
             analysisRunning = false
