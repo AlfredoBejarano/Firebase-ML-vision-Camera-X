@@ -22,15 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = setContentView(this, R.layout.activity_main)
 
         val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
-        binding.cameraView.addOnLabelResultsListener { results ->
-            val label = results.joinToString(", ")
-            if (label.isNotBlank()) {
-                snackbar.setText(label)
-                if (!snackbar.isShown) {
-                    snackbar.show()
-                }
-            }
-        }
+        binding.cameraView.addOnLabelResultsListener { result -> displayResult(snackbar, result) }
     }
 
     override fun onResume() {
@@ -55,4 +47,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onRequestPermissionsResult(request, permissions, results)
         }
+
+    private fun displayResult(snackBar: Snackbar, result: String) {
+        if (result.isNotEmpty()) {
+            snackBar.setText(result)
+        }
+        if (!snackBar.isShown) {
+            snackBar.show()
+        }
+    }
 }
