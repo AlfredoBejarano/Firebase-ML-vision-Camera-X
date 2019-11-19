@@ -1,21 +1,13 @@
 package me.alfredobejarano.cameraxfirebasemlvision
 
-import android.graphics.BitmapFactory
-import android.graphics.ImageFormat
-import android.graphics.YuvImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import androidx.camera.core.ImageProxy.PlaneProxy
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceImageLabelerOptions
-import me.alfredobejarano.cameraxfirebasemlvision.extensions.JPEG_QUALITY
-import me.alfredobejarano.cameraxfirebasemlvision.extensions.SCAN_HEIGHT
-import me.alfredobejarano.cameraxfirebasemlvision.extensions.SCAN_RECT
-import me.alfredobejarano.cameraxfirebasemlvision.extensions.SCAN_WIDTH
-import java.io.ByteArrayOutputStream
+import me.alfredobejarano.cameraxfirebasemlvision.extensions.asBitmap
 
 /**
  * Created by alfredo on 2019-11-15.
@@ -70,38 +62,4 @@ class LabelerAnalyzer : ImageAnalysis.Analyzer {
      */
     private fun createFirebaseImage(image: ImageProxy?) =
         FirebaseVisionImage.fromBitmap(image.asBitmap())
-
-    /**
-     * Parse a [PlaneProxy] into a [ByteArray].
-     */
-    private fun PlaneProxy?.asByteArray() = this?.buffer?.let { buffer ->
-        buffer.rewind()
-        val array = ByteArray(buffer.remaining())
-        buffer.get(array)
-        array
-    } ?: run {
-        byteArrayOf()
-    }
-
-    /**
-     * Iterates through all the image planes from an [ImageProxy] object and
-     * returns those bytes in a single [ByteArray].
-     */
-    private fun ImageProxy?.planesAsByteArray() = this?.planes
-        ?.map { it.asByteArray().toTypedArray() }
-        ?.toTypedArray()
-        ?.flatten()
-        ?.toByteArray() ?: byteArrayOf()
-
-    /**
-     * Parses the data from an [ImageProxy] using the [YuvImage] class to return a Bitmap
-     * usable by the Firebase detector.
-     */
-    private fun ImageProxy?.asBitmap() = ByteArrayOutputStream().let { outputStream ->
-        YuvImage(planesAsByteArray(), ImageFormat.NV21, SCAN_WIDTH, SCAN_HEIGHT, null)
-            .compressToJpeg(SCAN_RECT, JPEG_QUALITY, outputStream)
-
-        val data = outputStream.toByteArray()
-        BitmapFactory.decodeByteArray(data, 0, data.size)
-    }
 }
