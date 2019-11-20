@@ -46,11 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun displayResult(snackBar: Snackbar, result: String) {
-        if (result.isNotBlank()) {
+        if (result.isNotBlank() && !snackBar.isShown) {
             snackBar.setText(result)
-            if (!snackBar.isShown) {
-                snackBar.show()
-            }
+            snackBar.show()
         }
     }
 }
